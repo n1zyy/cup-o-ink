@@ -1,0 +1,6 @@
+<p>On linux/macs you can typically view your cups <a href="http://localhost:631/">web interface</a>.</p>
+
+<%= form_for(PrintServer.new, url: print_servers_path, html: {method: "get"}) do |f| %>
+  Name <%= text_field_tag :id, params[:id] || 'localhost' %>
+  <%= f.submit "view" %>
+<% end %>
