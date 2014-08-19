@@ -1,0 +1,10 @@
+<tr class='<%= toner.class_name %>'>
+ <td><%= toner.level %>%</td>
+ <% if toner.color.size==7 and toner.color.match("^#") %>
+   <td><font color="<%= toner.color%>"><%= toner.color %></font></td>
+ <% else %>
+   <td><%= toner.color %></td>
+ <% end %>
+ <td><%= toner.name %></td>
+ <td><%= toner.type %></td>
+</tr>
