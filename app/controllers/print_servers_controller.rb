@@ -4,7 +4,7 @@ class PrintServersController < ApplicationController
   protect_from_forgery with: :exception
 
   def show
-    @server = PrintServer.new(params[:id])
+    @server = PrintServer.new(:id => params[:id])
     @printers = @server.printers
   end
 end

@@ -1,25 +1,29 @@
-class Printer < ActiveRecord::Base
-  attr_accessor :raw_object
+class Printer
+  include ActiveModel::AttributeMethods
+  include ActiveModel::Conversion
+  extend  ActiveModel::Naming
+
   attr_accessor :name
   attr_accessor :server
 
-  def initialize(name, server_name)
-    @name = name
-    @server = server_name
-    @raw_object = CupsPrinter.new(name, :hostname => server_name)
-    @name
+  def initialize(options = {})
+    options.each { |n, v| public_send("#{n}=", v) }
   end
 
-  def attributes
-    @attributes ||= @raw_object.attributes
+  def raw_object
+    @raw_object ||= CupsPrinter.new(name, :hostname => server)
+  end
+
+  def raw_attributes
+    @raw_attributes ||= raw_object.attributes
   end
 
   def model
-    attributes['printer-info'] rescue ""
+    raw_attributes['printer-info'] rescue ""
   end
 
   def location
-    attributes['printer-location'] rescue ""
+    raw_attributes['printer-location'] rescue ""
   end
 
   def toner_status
@@ -29,14 +33,14 @@ class Printer < ActiveRecord::Base
     # marker-types
     toners = []
     # Some printers have no toner cartridges:
-    return toners unless attributes['marker-colors'].present?
-    colors = attributes['marker-colors'].split(',')
-    levels = attributes['marker-levels'].split(',')
-    names  = attributes['marker-names'].split(',')
-    types  = attributes['marker-types'].split(',')
-    highs  = attributes['marker-high-levels'].split(',') rescue []
-    lows   = attributes['marker-low-levels'].split(',') rescue []
-    msgs   = attributes['marker-messages'].split(',') rescue []
+    return toners unless raw_attributes['marker-colors'].present?
+    colors = raw_attributes['marker-colors'].split(',')
+    levels = raw_attributes['marker-levels'].split(',')
+    names  = raw_attributes['marker-names'].split(',')
+    types  = raw_attributes['marker-types'].split(',')
+    highs  = raw_attributes['marker-high-levels'].split(',') rescue []
+    lows   = raw_attributes['marker-low-levels'].split(',') rescue []
+    msgs   = raw_attributes['marker-messages'].split(',') rescue []
     #print "Colors: #{colors}"
     colors.each_with_index do |color, index|
       level = levels[index]

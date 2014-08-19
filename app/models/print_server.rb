@@ -1,10 +1,13 @@
-class PrintServer < ActiveRecord::Base
-  attr_accessor :hostname
+class PrintServer
+  include ActiveModel::AttributeMethods
+  include ActiveModel::Conversion
+  extend  ActiveModel::Naming
+
+  attr_accessor :id
   attr_accessor :raw_object
 
-  def initialize(hostname)
-    #raw_object = CupsPrinter.new(:hostname => hostname)
-    @hostname = hostname
+  def initialize(options = {})
+    options.each { |n, v| public_send("#{n}=", v) }
   end
 
   def printers
