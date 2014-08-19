@@ -6,12 +6,16 @@ class CupsTranslator
   end
 
   def toner(values)
-    correlate_attributes(values).map do |color, level, name, type|
+    correlate_attributes(values, %w(marker-colors marker-names marker-types marker-messages) +
+                         %w(marker-high_levels marker-levels marker-low-levels)).map do |c, n, t, msg, hl, l, ll|
       Toner.new(
-        :name       => name,
-        :color      => color,
-        :level      => level,
-        :type       => type,
+        :color      => c,
+        :name       => n,
+        :type       => t,
+        :messages   => msg,
+        :high_level => hl,
+        :level      => l,
+        :low_level  => ll,
       )
     end.compact
   end
@@ -20,19 +24,29 @@ class CupsTranslator
   def printer(name, values)
     Printer.new(
       :name     => name,
-      :info     => values['printer-info'],
-      :location => values['printer-location'],
-      :model    => values['printer-make-and-model'],
+      :info     => values['printer-info'].presence,
+      :location => values['printer-location'].presence,
+      :model    => values['printer-make-and-model'].presence,
       :toners   => toner(values)
+    # "copies"=>"1"
+    # "device-uri"=>"dnssd://EPSON%20WF-2540%20Series._ipp._tcp.local./"
+    # "finishings"=>"3"
+    # "job-hold-until"=>"no-hold"
+    # "job-priority"=>"50"
+    # "job-sheets"=>"none,none"
+    # "number-up"=>"1"
+    # "printer-commands"=>"none"
+    # "printer-is-accepting-jobs"=>"true"
+    # "printer-is-shared"=>"false"
+    # "printer-state"=>"3"
+    # "printer-state-change-time"=>"1408200052"
+    # "printer-state-reasons"=>"none"
+    # "printer-type"=>"69242956"
     )
   end
 
-  def correlate_attributes(values)
-    colors = list_attributes(values, 'marker-colors')
-    levels = list_attributes(values, 'marker-levels')
-    names  = list_attributes(values, 'marker-names')
-    types  = list_attributes(values, 'marker-types')
-    colors.zip(levels, names, types)
+  def correlate_attributes(values, attributes)
+    list_attributes(values, attributes.first).zip(*attributes[1..-1].map { |attr| list_attributes(values, attr)})
   end
 
   def list_attributes(values, name)
