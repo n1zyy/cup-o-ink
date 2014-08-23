@@ -6,7 +6,6 @@ class PrintServersController < ApplicationController
   before_filter :find_by_id
 
   def index
-    render 'show' if @print_server
   end
 
   private

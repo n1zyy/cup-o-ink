@@ -1,0 +1,22 @@
+/* svg style */
+
+.warning text, .warning use {
+  fill: orange;
+}
+
+.danger text, .danger use {
+  fill: red;
+}
+
+.printer {
+  border-bottom: 1px solid #eee;
+}
+
+/* server label */
+span.sl {
+  border-bottom: 1px dotted #000 ;
+  cursor: pointer;
+}
+
+.with-server .sv { display: none; }
+.without-server span.sl { display: none;}
