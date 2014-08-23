@@ -51,7 +51,7 @@ class Toner
   end
 
   def level_percent
-    (level.to_i * 100 / (high_level || 100)).to_i if level
+    level.try(:to_i)
   end
 
   def class_name
