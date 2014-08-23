@@ -1,0 +1,12 @@
+<form method="get" action="/" class="page-header <%= @print_server ? "with-server" : "without-server" %>">
+  <a href="http://localhost:631/" title="cups on local web interface"><%= server_icon %></a>
+  <!--
+  <label class="sl" for="id">Print Server</label>
+  -->
+  <span class="sl"><%= @print_server.try(:id) %></span>
+  <%= text_field_tag :id, params[:id], class: 'sv', style: "margin-top: 20px", placeholder: "Print Server" %>
+  <input type="submit" value="view" class="icon-large icon-print sv">
+  <!-- suggestions: -->
+  <small><a href="?id=localhost" class="sv">[localhost]</a></small>
+</form>
+<%= render @print_server if @print_server %>

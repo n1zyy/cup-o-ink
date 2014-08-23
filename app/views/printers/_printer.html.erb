@@ -1,0 +1,8 @@
+<div class="printer">
+  <div><%= printer_icon %><%= printer.name %></div>
+  <div><%= printer.info %></div>
+  <% if printer.location -%><div><%= printer.location %></div><% end %>
+  <div class="toners">
+    <%= render printer.visible_toners if printer.visible_toners? %>
+  </div>
+</div>

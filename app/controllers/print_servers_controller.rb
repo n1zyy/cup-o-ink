@@ -3,8 +3,14 @@ class PrintServersController < ApplicationController
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def show
-    @server = PrintServer.new(params[:id])
-    @printers = @server.printers
+  before_filter :find_by_id
+
+  def index
+  end
+
+  private
+
+  def find_by_id
+    @print_server = PrintServer.new(:id => params[:id]) if params[:id]
   end
 end
