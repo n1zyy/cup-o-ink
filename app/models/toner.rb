@@ -42,7 +42,7 @@ class Toner
       begin
         short_name = name.dup
         IGNORE_WORDS.map { |ignore| short_name.gsub!(ignore, '') }
-        short_name.gsub!(/\[.\]/,'')
+        short_name.gsub(/\[.\]/,'')
       end
   end
 

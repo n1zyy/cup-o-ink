@@ -16,7 +16,7 @@ module ApplicationHelper
 
   def toner_icon(toner)
     %{<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-   width="64px" height="124px" viewBox="0 0 64 64" enable-background="new 0 0 64 64">
+   width="64px" height="100px" viewBox="0 0 64 100>
         <g class="#{toner.class_name}">
           <use xlink:href = "#cartridge" />
           <use xlink:href = "#ink"  style="fill: #{toner.css_color}" />
