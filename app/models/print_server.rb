@@ -10,8 +10,6 @@ class PrintServer
   end
 
   def printers
-    @printers ||= CupsTranslator.cupsToPrinter(CupsPrinter.get_all_printer_attrs(:hostname => id)).tap {
-      CupsPrinter.close  
-    }
+    @printers ||= CupsTranslator.cupsToPrinter(CupsPrinter.get_all_printer_attrs(:hostname => id))
   end
 end
