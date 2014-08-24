@@ -14,7 +14,7 @@ class Toner
   attr_accessor :color
   attr_accessor :name
   attr_accessor :type
-  attr_accessor :messages
+  attr_accessor :message
   attr_accessor :high_level
   attr_accessor :level
   attr_accessor :low_level

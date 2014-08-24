@@ -12,7 +12,7 @@ class CupsTranslator
         :color      => c,
         :name       => n,
         :type       => t,
-        :messages   => msg,
+        :message    => msg,
         :high_level => hl,
         :level      => l,
         :low_level  => ll,
@@ -45,6 +45,7 @@ class CupsTranslator
     )
   end
 
+  # take multiple parallel arrays, and "zip" them together
   def correlate_attributes(values, attributes)
     list_attributes(values, attributes.first).zip(*attributes[1..-1].map { |attr| list_attributes(values, attr)})
   end
