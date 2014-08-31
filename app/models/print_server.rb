@@ -9,7 +9,12 @@ class PrintServer
     options.each { |n, v| public_send("#{n}=", v) }
   end
 
+  # display
   def name
-    id || filename
+    id || short_filename
+  end
+
+  def short_filename
+    File.basename(filename, '.yml') if filename
   end
 end
