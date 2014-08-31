@@ -3,13 +3,13 @@ class PrintServer
   include ActiveModel::Conversion
   extend  ActiveModel::Naming
 
-  attr_accessor :id
+  attr_accessor :id, :filename, :printers
 
   def initialize(options = {})
     options.each { |n, v| public_send("#{n}=", v) }
   end
 
-  def printers
-    @printers ||= CupsTranslator.cupsToPrinter(CupsPrinter.get_all_printer_attrs(:hostname => id))
+  def name
+    id || filename
   end
 end

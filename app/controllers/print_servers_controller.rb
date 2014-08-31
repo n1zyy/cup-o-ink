@@ -11,6 +11,14 @@ class PrintServersController < ApplicationController
   private
 
   def find_by_id
-    @print_server = PrintServer.new(:id => params[:id]) if params[:id]
+    if params[:id] || params[:filename]
+      @print_server = CupsTranlator.fromFileCupMaybeSave(:id       => params[:id],
+                                                         :filename => filename_param
+                                                        ).print_server
+    end
+  end
+
+  def filename_param
+    Rails.root.join("printers", params[:filename]).to_s if params[:filename]
   end
 end
