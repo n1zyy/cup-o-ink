@@ -1,9 +1,13 @@
 # this should be a lib
 require 'yaml'
 
+# parallels print_server
+# this is both the disk serializer and cups driver serializer
+# acts as the print_server, printer, and toner factory
+# probably makes sense to break into many classes
 class CupsTranslator
   attr_accessor :attrs, :id, :filename
-  def initialize(attrs)
+  def initialize(attrs = {})
     @attrs = attrs
   end
 

@@ -12,9 +12,7 @@ class PrintServersController < ApplicationController
 
   def find_by_id
     if params[:id] || params[:filename]
-      @print_server = CupsTranlator.fromFileCupMaybeSave(:id       => params[:id],
-                                                         :filename => filename_param
-                                                        ).print_server
+      @print_server = CupsTranslator.fromFileCupMaybeSave(params[:id], filename_param).print_server
     end
   end
 
