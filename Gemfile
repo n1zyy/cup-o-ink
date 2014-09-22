@@ -22,4 +22,4 @@ gem 'thin'
 # gem 'debugger', group: [:development, :test]
 # gem 'pry', group: [:development, :test]
 
-gem 'cupsffi', git: 'http://github.com/n1zyy/cupsffi.git', :branch => 'get_all_attrs'
+gem 'cupsffi', '~> 0.1.4'
