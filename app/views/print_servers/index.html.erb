@@ -3,7 +3,7 @@
   <!--
   <label class="sl" for="id">Print Server</label>
   -->
-  <span class="sl"><%= @print_server.try(:id) %></span>
+  <span class="sl"><%= @print_server.try(:name) %></span>
   <%= text_field_tag :id, params[:id], class: 'sv', style: "margin-top: 20px", placeholder: "Print Server" %>
   <input type="submit" value="view" class="icon-large icon-print sv">
   <!-- suggestions: -->

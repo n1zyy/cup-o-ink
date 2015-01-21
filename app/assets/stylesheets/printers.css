@@ -8,6 +8,11 @@
   fill: red;
 }
 
+/* html style */
+svg, div.toner {
+  display: inline-block;
+}
+
 .printer {
   border-bottom: 1px solid #eee;
 }

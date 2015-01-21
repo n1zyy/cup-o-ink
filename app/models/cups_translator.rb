@@ -1,9 +1,52 @@
 # this should be a lib
+require 'yaml'
 
+# parallels print_server
+# this is both the disk serializer and cups driver serializer
+# acts as the print_server, printer, and toner factory
+# probably makes sense to break into many classes
 class CupsTranslator
-  def cupsToPrinter(cups_printers)
-    cups_printers.map { |k, v| printer(k, v) }
+  attr_accessor :attrs, :id, :filename
+  def initialize(attrs = {})
+    @attrs = attrs
   end
+
+  def search(hostname)
+    @id = hostname
+    @attrs = CupsPrinter.get_all_printer_attrs(:hostname => hostname) if hostname
+    self
+  end
+
+  def load(filename)
+    @filename = filename
+    @attrs = YAML::load_file(filename) if filename
+    self
+  end
+
+  def save(filename)
+    File.write(filename, attrs.to_yaml) if filename && !File.exist?(filename)
+    self
+  end
+
+  def print_server
+    PrintServer.new(:id       => @id,
+                    :filename => @filename,
+                    :printers => printers)
+  end
+
+  def printers
+    attrs.map { |k, v| printer(k, v) }
+  end
+
+  def self.fromFileCupMaybeSave(id, filename)
+    if id
+      new.search(id).save(filename)
+    elsif filename
+      new.load(filename)
+    end
+  end
+
+  private
 
   def toner(values)
     correlate_attributes(values, %w(marker-colors marker-names marker-types marker-messages) +
@@ -12,7 +55,7 @@ class CupsTranslator
         :color      => c,
         :name       => n,
         :type       => t,
-        :messages   => msg,
+        :message    => msg,
         :high_level => hl,
         :level      => l,
         :low_level  => ll,
@@ -45,6 +88,7 @@ class CupsTranslator
     )
   end
 
+  # take multiple parallel arrays, and "zip" them together
   def correlate_attributes(values, attributes)
     list_attributes(values, attributes.first).zip(*attributes[1..-1].map { |attr| list_attributes(values, attr)})
   end
@@ -52,9 +96,4 @@ class CupsTranslator
   def list_attributes(values, name)
     values[name].try(:split, ',') || []
   end
-
-  def self.cupsToPrinter(cups_printers)
-    new.cupsToPrinter(cups_printers)
-  end
 end
-
